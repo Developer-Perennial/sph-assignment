@@ -5,7 +5,9 @@
       <map>
         <entry key="app/src/main/res/layout/fragment_datastore_list.xml" value="0.25729166666666664" />
         <entry key="app/src/main/res/layout/fragment_record_year_pager.xml" value="0.12512664640324214" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.12512664640324214" />
         <entry key="app/src/main/res/layout/fragment_year_details.xml" value="0.13229166666666667" />
+        <entry key="app/src/main/res/layout/item_datastore_record.xml" value="0.12512664640324214" />
         <entry key="app/src/main/res/layout/item_year_details.xml" value="0.12512664640324214" />
       </map>
     </option>

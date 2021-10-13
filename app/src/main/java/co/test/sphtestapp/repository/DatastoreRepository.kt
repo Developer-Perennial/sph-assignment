@@ -1,14 +1,16 @@
 package co.test.sphtestapp.repository
 
+import co.test.sphtestapp.data.local.DatastoreDao
 import co.test.sphtestapp.data.network.DataStoreClient
 import co.test.sphtestapp.data.network.Resource
 import co.test.sphtestapp.data.network.response.DatastoreResponse
+import co.test.sphtestapp.data.network.response.Record
 import javax.inject.Inject
 
 class DatastoreRepository @Inject constructor(
-    private val dataStoreClient: DataStoreClient
+    private val dataStoreClient: DataStoreClient,
+    private val datastoreDao: DatastoreDao
 ) {
-
     suspend fun getDatastoreRecords(resourceId: String): Resource<DatastoreResponse> {
         return try {
             val response = dataStoreClient.apiGetDatastoreRecords(resourceId)
@@ -23,6 +25,19 @@ class DatastoreRepository @Inject constructor(
             Resource.error("Couldn't reach the server. Check your internet connection", null)
         }
     }
+
+    suspend fun insertDatastoreRecords(data: ArrayList<Record>) {
+        datastoreDao.insertDatastoreRecords(data)
+    }
+
+    suspend fun fetchDatastoreRecords(): List<Record> {
+        return datastoreDao.findDatastoreRecords()
+    }
+
+    fun fetchDatastoreYearRecords(year: String): List<Record> {
+        return datastoreDao.findDatastoreYearRecords(year)
+    }
+
 }
 
 

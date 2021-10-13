@@ -1,6 +1,7 @@
 package co.test.sphtestapp.view
 
 import androidx.databinding.ObservableField
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,19 +12,20 @@ import co.test.sphtestapp.data.network.Resource
 import co.test.sphtestapp.data.network.response.DatastoreResponse
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.repository.DatastoreRepository
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class YearDetailsViewModel : ViewModel() {
-    private val _progressStatus: ObservableField<Boolean> = ObservableField()
-    val progressStatus: ObservableField<Boolean> = _progressStatus
+class YearDetailsViewModel
+@ViewModelInject constructor(
+    private val datastoreRepository: DatastoreRepository
+) : ViewModel() {
 
-    private val _quarterWiseData = MutableLiveData<Event<Resource<List<Record>>>>()
-    val quarterWiseData: LiveData<Event<Resource<List<Record>>>> = _quarterWiseData
+//    private val _datastoreYearDbData = MutableLiveData<List<Record>>()
+//    val datastoreYearDbData: LiveData<List<Record>> = _datastoreYearDbData
+    var datastoreYearDbData: MutableLiveData<List<Record>> = MutableLiveData()
 
-    fun filterData(year: String, arrayList: List<Record>) {
-        _progressStatus.set(true)
-        _quarterWiseData.value = Event(Resource.loading(null))
-        _quarterWiseData.value = Event(Resource.success(arrayList.filter { it.quarter.substring(0, 4) == year }))
-        _progressStatus.set(false)
+    fun fetchDatastoreRecordsDb(year: String) = GlobalScope.launch {
+        datastoreYearDbData.postValue(datastoreRepository.fetchDatastoreYearRecords(year))
     }
+
 }

@@ -12,6 +12,7 @@ import co.test.sphtestapp.data.network.Resource
 import co.test.sphtestapp.data.network.response.DatastoreResponse
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.repository.DatastoreRepository
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 open class DatastoreListViewModel
@@ -28,14 +29,29 @@ open class DatastoreListViewModel
     private val _datastoreResponse = MutableLiveData<Event<Resource<DatastoreResponse>>>()
     val datastoreResponse: LiveData<Event<Resource<DatastoreResponse>>> = _datastoreResponse
 
-    fun getDatastoreRecords() {
+    private val _datastoreDbData = MutableLiveData<Event<Resource<List<Record>>>>()
+    val datastoreDbData: LiveData<Event<Resource<List<Record>>>> = _datastoreDbData
+
+    fun getDatastoreRecordsApi() {
         _progressStatus.set(true)
         _datastoreResponse.value = Event(Resource.loading(null))
         viewModelScope.launch {
             val response = datastoreRepository.getDatastoreRecords(Constants.Resource.ID)
             _datastoreResponse.value = Event(response)
+            insertDatastoreRecordsDb(filterData(response.data?.result?.records))
             _progressStatus.set(false)
         }
+    }
+
+    fun insertDatastoreRecordsDb(datastoreRecords: List<Record>?) = GlobalScope.launch {
+        datastoreRepository.insertDatastoreRecords(ArrayList(datastoreRecords))
+    }
+
+    fun fetchDatastoreRecordsDb() = GlobalScope.launch {
+        _progressStatus.set(true)
+        val dataItems = datastoreRepository.fetchDatastoreRecords()
+        _datastoreDbData.postValue(Event(Resource.success(dataItems)))
+        _progressStatus.set(false)
     }
 
     fun filterData(arrayList: List<Record>?): ArrayList<Record> {

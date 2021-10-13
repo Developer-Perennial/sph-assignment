@@ -19,7 +19,7 @@
         android:id="@+id/SecondFragment"
         android:name="co.test.sphtestapp.view.RecordYearPagerFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_record_year_pager">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

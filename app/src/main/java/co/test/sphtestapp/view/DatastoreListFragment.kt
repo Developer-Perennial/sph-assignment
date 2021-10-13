@@ -40,8 +40,6 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
         setUpObservers()
         setUpList()
 
-        datastoreListViewModel.getDatastoreRecords()
-
         return binding.root
     }
 
@@ -51,6 +49,23 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
     }
 
     private fun setUpObservers() {
+        datastoreListViewModel.datastoreDbData.observe(
+            viewLifecycleOwner,
+            EventObserver { recordDBDataList ->
+                when (recordDBDataList.status) {
+                    SUCCESS -> {
+                        if (recordDBDataList.data!!.isEmpty()) {
+                            datastoreListViewModel.getDatastoreRecordsApi()
+                        } else {
+                            loadAdapter(recordDBDataList.data)
+                        }
+                    }
+                    ERROR -> {
+                        Snackbar.make(binding.root, getString(R.string.issue_while_loading_data), Snackbar.LENGTH_LONG).show()
+                    }
+                    LOADING -> {}
+                }
+            })
         datastoreListViewModel.datastoreResponse.observe(
             viewLifecycleOwner,
             EventObserver { recordAPIDataList ->
@@ -64,6 +79,7 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
                     LOADING -> {}
                 }
             })
+        datastoreListViewModel.fetchDatastoreRecordsDb()
     }
 
     private fun loadAdapter(datastoreList: List<Record>) {
@@ -82,7 +98,6 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
         val bundle = Bundle()
         bundle.putInt(Constants.IntentKeys.POSITION, position)
         bundle.putStringArrayList(Constants.IntentKeys.YEAR_DATA, datastoreListViewModel.yearData)
-        bundle.putParcelableArrayList(Constants.IntentKeys.DATASTORE_DATA, tempYearWiseVolumeData)
         findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
     }
 }

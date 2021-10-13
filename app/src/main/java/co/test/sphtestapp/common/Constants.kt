@@ -23,6 +23,7 @@ object Constants {
     class IntentKeys {
         companion object {
             const val POSITION = "position"
+            const val YEAR = "year"
             const val YEAR_DATA = "year_data"
             const val DATASTORE_DATA = "datastore_data"
         }

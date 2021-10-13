@@ -31,4 +31,10 @@ class YearDetailsListAdapter(
     override fun getItemCount(): Int {
         return quarterWiseVolumeData.size
     }
+
+    fun updateVolumeList(updatedQuarterWiseVolumeData: List<Record>) {
+        quarterWiseVolumeData.clear()
+        quarterWiseVolumeData.addAll(updatedQuarterWiseVolumeData)
+        notifyDataSetChanged()
+    }
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.test.sphtestapp.R
 import co.test.sphtestapp.common.Constants
 import co.test.sphtestapp.common.EventObserver
@@ -23,16 +22,13 @@ class YearDetailsFragment : Fragment() {
     lateinit var yearDetailsViewModel: YearDetailsViewModel
 
     private lateinit var year: String
-    private var datastoreData = arrayListOf<Record>()
-
     private val quarterWiseVolumeData = arrayListOf<Record>()
 
     companion object {
-        fun newInstance(year: String, datastoreData: ArrayList<Record>): YearDetailsFragment {
+        fun newInstance(year: String): YearDetailsFragment {
             val datastorePagerFragment = YearDetailsFragment()
             val bundle = Bundle()
             bundle.putString(Constants.IntentKeys.POSITION, year)
-            bundle.putParcelableArrayList(Constants.IntentKeys.DATASTORE_DATA, datastoreData)
             datastorePagerFragment.arguments = bundle
             return datastorePagerFragment
         }
@@ -41,7 +37,6 @@ class YearDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         year = requireArguments().getString(Constants.IntentKeys.POSITION, "")
-        datastoreData = requireArguments().getParcelableArrayList<Record>(Constants.IntentKeys.DATASTORE_DATA) as ArrayList<Record>
     }
 
     override fun onCreateView(
@@ -53,8 +48,8 @@ class YearDetailsFragment : Fragment() {
 
             _binding = FragmentYearDetailsBinding.inflate(inflater, container, false)
 
-            setUpObservers()
             setUpList()
+            setUpObservers()
         }
 
         return binding.root
@@ -66,25 +61,24 @@ class YearDetailsFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        yearDetailsViewModel.quarterWiseData.observe(
-                viewLifecycleOwner,
-                EventObserver { recordAPIDataList ->
-                    when (recordAPIDataList.status) {
-                        Status.SUCCESS -> {
-                            recordAPIDataList.data?.let { loadAdapter(it) }
-                        }
-                        Status.ERROR -> {
+        yearDetailsViewModel.datastoreYearDbData.observe(
+            viewLifecycleOwner,
+             { recordYearDBDataList ->
+                        if (recordYearDBDataList!!.isEmpty()) {
                             Snackbar.make(binding.root, getString(R.string.issue_while_loading_data), Snackbar.LENGTH_LONG).show()
+                        } else {
+                            loadAdapter(recordYearDBDataList)
                         }
-                        Status.LOADING -> {}
-                    }
-                })
-        yearDetailsViewModel.filterData(year, datastoreData)
+
+                }
+            )
+
+        println("load fetchDatastoreRecordsDb for $year")
+        yearDetailsViewModel.fetchDatastoreRecordsDb(requireArguments().getString(Constants.IntentKeys.POSITION, ""))
     }
 
     private fun loadAdapter(quarterWiseData: List<Record>) {
-        quarterWiseVolumeData.clear()
-        quarterWiseVolumeData.addAll(quarterWiseData)
-        binding.rvYearDetailList.adapter?.notifyDataSetChanged()
+        println("load adpter for $year ${quarterWiseData.size}")
+        (binding.rvYearDetailList.adapter as YearDetailsListAdapter).updateVolumeList(quarterWiseData)
     }
 }
