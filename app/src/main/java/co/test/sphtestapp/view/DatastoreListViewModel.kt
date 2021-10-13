@@ -38,7 +38,8 @@ open class DatastoreListViewModel
         viewModelScope.launch {
             val response = datastoreRepository.getDatastoreRecords(Constants.Resource.ID)
             _datastoreResponse.value = Event(response)
-            insertDatastoreRecordsDb(filterData(response.data?.result?.records))
+            insertDatastoreRecordsDb(response.data?.result?.records)
+            filterData(response.data?.result?.records)
             _progressStatus.set(false)
         }
     }

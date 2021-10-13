@@ -26,11 +26,11 @@ class DatastoreRepository @Inject constructor(
         }
     }
 
-    suspend fun insertDatastoreRecords(data: ArrayList<Record>) {
+    fun insertDatastoreRecords(data: ArrayList<Record>) {
         datastoreDao.insertDatastoreRecords(data)
     }
 
-    suspend fun fetchDatastoreRecords(): List<Record> {
+    fun fetchDatastoreRecords(): List<Record> {
         return datastoreDao.findDatastoreRecords()
     }
 

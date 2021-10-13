@@ -61,7 +61,7 @@ class YearDetailsFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        yearDetailsViewModel.datastoreYearDbData.observe(
+        yearDetailsViewModel.getDatastoreEntry().observe(
             viewLifecycleOwner,
              { recordYearDBDataList ->
                         if (recordYearDBDataList!!.isEmpty()) {
@@ -69,16 +69,13 @@ class YearDetailsFragment : Fragment() {
                         } else {
                             loadAdapter(recordYearDBDataList)
                         }
-
                 }
             )
 
-        println("load fetchDatastoreRecordsDb for $year")
-        yearDetailsViewModel.fetchDatastoreRecordsDb(requireArguments().getString(Constants.IntentKeys.POSITION, ""))
+        yearDetailsViewModel.fetchDatastoreRecordsDb()
     }
 
     private fun loadAdapter(quarterWiseData: List<Record>) {
-        println("load adpter for $year ${quarterWiseData.size}")
-        (binding.rvYearDetailList.adapter as YearDetailsListAdapter).updateVolumeList(quarterWiseData)
+        (binding.rvYearDetailList.adapter as YearDetailsListAdapter).updateVolumeList(quarterWiseData.filter { it.quarter.subSequence(0, 4) == year})
     }
 }

@@ -22,10 +22,11 @@ class YearDetailsViewModel
 
 //    private val _datastoreYearDbData = MutableLiveData<List<Record>>()
 //    val datastoreYearDbData: LiveData<List<Record>> = _datastoreYearDbData
-    var datastoreYearDbData: MutableLiveData<List<Record>> = MutableLiveData()
+    private var datastoreYearDbData: MutableLiveData<List<Record>> = MutableLiveData()
 
-    fun fetchDatastoreRecordsDb(year: String) = GlobalScope.launch {
-        datastoreYearDbData.postValue(datastoreRepository.fetchDatastoreYearRecords(year))
+    fun fetchDatastoreRecordsDb() = GlobalScope.launch {
+        datastoreYearDbData.postValue(datastoreRepository.fetchDatastoreRecords())
     }
 
+    fun getDatastoreEntry() = datastoreYearDbData
 }
