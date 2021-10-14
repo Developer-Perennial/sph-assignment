@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import co.test.sphtestapp.R
 import co.test.sphtestapp.common.Constants
-import co.test.sphtestapp.common.EventObserver
-import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.databinding.FragmentYearDetailsBinding
+import co.test.sphtestapp.viewmodel.YearDetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class YearDetailsFragment : Fragment() {
@@ -61,7 +60,7 @@ class YearDetailsFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        yearDetailsViewModel.datastoreYearDbData.observe(
+        yearDetailsViewModel.getDatastoreEntry().observe(
             viewLifecycleOwner,
              { recordYearDBDataList ->
                         if (recordYearDBDataList!!.isEmpty()) {
@@ -69,16 +68,13 @@ class YearDetailsFragment : Fragment() {
                         } else {
                             loadAdapter(recordYearDBDataList)
                         }
-
                 }
             )
 
-        println("load fetchDatastoreRecordsDb for $year")
-        yearDetailsViewModel.fetchDatastoreRecordsDb(requireArguments().getString(Constants.IntentKeys.POSITION, ""))
+        yearDetailsViewModel.fetchDatastoreRecordsDb()
     }
 
     private fun loadAdapter(quarterWiseData: List<Record>) {
-        println("load adpter for $year ${quarterWiseData.size}")
-        (binding.rvYearDetailList.adapter as YearDetailsListAdapter).updateVolumeList(quarterWiseData)
+        (binding.rvYearDetailList.adapter as YearDetailsListAdapter).updateVolumeList(quarterWiseData.filter { it.quarter.subSequence(0, 4) == year})
     }
 }

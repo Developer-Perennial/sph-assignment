@@ -13,8 +13,8 @@ data class Record(
     val _id: Int,
     val quarter: String,
     val volume_of_mobile_data: String,
-    @Ignore var year: String,
-    @Ignore var total_volume_data: String
+    @Ignore var year: String = "",
+    @Ignore var total_volume_data: String = "0.0"
 ) : Parcelable {
     constructor(_id: Int, quarter: String, volume_of_mobile_data: String) : this(
         _id,

@@ -10,8 +10,8 @@ import javax.inject.Inject
 class DatastoreRepository @Inject constructor(
     private val dataStoreClient: DataStoreClient,
     private val datastoreDao: DatastoreDao
-) {
-    suspend fun getDatastoreRecords(resourceId: String): Resource<DatastoreResponse> {
+):DataStoreRepository {
+    override suspend fun getDatastoreRecords(resourceId: String): Resource<DatastoreResponse> {
         return try {
             val response = dataStoreClient.apiGetDatastoreRecords(resourceId)
             if (response.isSuccessful) {
@@ -26,11 +26,11 @@ class DatastoreRepository @Inject constructor(
         }
     }
 
-    suspend fun insertDatastoreRecords(data: ArrayList<Record>) {
+    override suspend fun insertDatastoreRecords(data: ArrayList<Record>) {
         datastoreDao.insertDatastoreRecords(data)
     }
 
-    suspend fun fetchDatastoreRecords(): List<Record> {
+    override suspend fun fetchDatastoreRecords(): List<Record> {
         return datastoreDao.findDatastoreRecords()
     }
 
