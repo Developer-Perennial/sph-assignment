@@ -10,12 +10,11 @@ import androidx.navigation.fragment.findNavController
 import co.test.sphtestapp.R
 import co.test.sphtestapp.common.Constants
 import co.test.sphtestapp.common.EventObserver
-import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.data.network.Status.*
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.databinding.FragmentDatastoreListBinding
+import co.test.sphtestapp.viewmodel.DatastoreListViewModel
 import com.google.android.material.snackbar.Snackbar
-import java.util.ArrayList
 
 class DatastoreListFragment : Fragment(), ClickHandler  {
 

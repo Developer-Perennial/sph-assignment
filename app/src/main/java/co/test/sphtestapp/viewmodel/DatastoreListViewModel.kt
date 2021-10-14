@@ -1,4 +1,4 @@
-package co.test.sphtestapp.view
+package co.test.sphtestapp.viewmodel
 
 import androidx.databinding.ObservableField
 import androidx.hilt.lifecycle.ViewModelInject
@@ -11,13 +11,13 @@ import co.test.sphtestapp.common.Event
 import co.test.sphtestapp.data.network.Resource
 import co.test.sphtestapp.data.network.response.DatastoreResponse
 import co.test.sphtestapp.data.network.response.Record
-import co.test.sphtestapp.repository.DatastoreRepository
+import co.test.sphtestapp.repository.DataStoreRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 open class DatastoreListViewModel
 @ViewModelInject constructor(
-    private val datastoreRepository: DatastoreRepository
+    private val datastoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _progressStatus: ObservableField<Boolean> = ObservableField()
@@ -31,6 +31,9 @@ open class DatastoreListViewModel
 
     private val _datastoreDbData = MutableLiveData<Event<Resource<List<Record>>>>()
     val datastoreDbData: LiveData<Event<Resource<List<Record>>>> = _datastoreDbData
+
+    private val _insertDataStoreItemStatus = MutableLiveData<Event<Resource<List<Record>>>>()
+    val insertDataStoreItemStatus: LiveData<Event<Resource<List<Record>>>> = _insertDataStoreItemStatus
 
     fun getDatastoreRecordsApi() {
         _progressStatus.set(true)
@@ -46,6 +49,7 @@ open class DatastoreListViewModel
 
     fun insertDatastoreRecordsDb(datastoreRecords: List<Record>?) = GlobalScope.launch {
         datastoreRepository.insertDatastoreRecords(ArrayList(datastoreRecords))
+        _insertDataStoreItemStatus.postValue(Event(Resource.success(datastoreRecords)))
     }
 
     fun fetchDatastoreRecordsDb() = GlobalScope.launch {
