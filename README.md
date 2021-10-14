@@ -45,7 +45,7 @@ Each Repository is tested using local unit tests with mock web service and mock 
 ### Webservice Tests
 The project uses MockWebServer project to test REST api interactions.
 
-Although there can be more code coverage for Adapto & emulator tests but due to time crunch didnt added it.
+Although there can be more code coverage for Adaptors & Fragment tests but due to time crunch didnt added it.
 
 ### Libraries
 Android Support Library
