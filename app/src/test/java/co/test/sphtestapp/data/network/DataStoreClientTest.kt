@@ -30,7 +30,7 @@ class DataStoreClientTest {
     private val resourceId = "a807b7ab-6cad-4aa6-87d0-e283a7353a0f"
 
     @Before
-    fun createService() {
+    fun createAPIService() {
         mockWebServer = MockWebServer()
         service = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
@@ -40,12 +40,12 @@ class DataStoreClientTest {
     }
 
     @After
-    fun stopService() {
+    fun stopAPIService() {
         mockWebServer.shutdown()
     }
 
     @Test
-    fun getData() {
+    fun getAPIData() {
         enqueueResponse("MockedResponse.json")
         var responseMock: DatastoreResponse? = null
         runBlocking {
@@ -70,7 +70,7 @@ class DataStoreClientTest {
     }
 
     @Test
-    fun getAPITest() {
+    fun getAPIResponseTest() {
         enqueueResponse("MockedResponse.json")
         var repos: DatastoreResponse? = null
         runBlocking {
@@ -101,7 +101,7 @@ class DataStoreClientTest {
         )
     }
 
-    private suspend fun getAPIData(): DatastoreResponse? {
+    private suspend fun getAPIResponseData(): DatastoreResponse? {
         return service.apiGetDatastoreRecords(resourceId).body()
     }
 }

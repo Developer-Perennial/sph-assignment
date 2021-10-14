@@ -12,7 +12,7 @@ class DataStoreResponseTest{
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun testValues() {
+    fun testValuesData() {
         val field = Field("_id", "int4" )
         val links = Links("/api/action/datastore_search?offset=10&limit=10&resource_id=a807b7ab-6cad-4aa6-87d0-e283a7353a0f", " /api/action/datastore_search?limit=10&resource_id=a807b7ab-6cad-4aa6-87d0-e283a7353a0f")
         val record = Record(1, "2004-Q3", "0.000384","2004","1.5345")

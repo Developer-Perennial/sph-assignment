@@ -10,26 +10,26 @@ import org.mockito.Mockito
 
 class DataStoreDaoTest{
 
-    private val dataUsageAmountDao = Mockito.mock(DatastoreDao::class.java)
+    private val dataStoreAmountDao = Mockito.mock(DatastoreDao::class.java)
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun loadDataFromDataBase() {
+    fun fetchDataFromDataBase() {
         val record = Record(1, "2016-Q1","1.00001")
         val recordsArray = arrayListOf(record)
-        Mockito.`when`(dataUsageAmountDao.findDatastoreRecords()).thenReturn(recordsArray)
+        Mockito.`when`(dataStoreAmountDao.findDatastoreRecords()).thenReturn(recordsArray)
 
         Assert.assertThat(recordsArray, IsNull.notNullValue())
     }
 
     @Test
-    fun saveDataInDatabase() {
+    fun insertDataInDatabase() {
         val record = Record(1, "2016-Q1","1.00001")
         val successInsert = arrayOf(1L)
-        Mockito.`when`(dataUsageAmountDao.insertDatastoreRecords(arrayListOf(record))).thenReturn(successInsert)
+        Mockito.`when`(dataStoreAmountDao.insertDatastoreRecords(arrayListOf(record))).thenReturn(successInsert)
 
         Assert.assertThat(successInsert, IsNull.notNullValue())
     }

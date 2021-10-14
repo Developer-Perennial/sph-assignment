@@ -38,7 +38,7 @@ class DataStoreViewModelTest {
     }
 
     @Test
-    fun `insert single item`() {
+    fun `save items`() {
         val dataUsageItem = Record(1,"2016-Q1", "1.00001")
         viewModel1.insertDatastoreRecordsDb(arrayListOf(dataUsageItem))
 
@@ -48,7 +48,7 @@ class DataStoreViewModelTest {
     }
 
     @Test
-    fun `fetch items`() {
+    fun `get items from database`() {
         viewModel1.fetchDatastoreRecordsDb()
 
         val value = viewModel1.datastoreDbData.getOrAwaitValueTest()
@@ -57,7 +57,7 @@ class DataStoreViewModelTest {
     }
 
     @Test
-    fun `fetch items from api`() {
+    fun `get items from api response`() {
         viewModel1.getDatastoreRecordsApi()
 
         val value = viewModel1.datastoreResponse.getOrAwaitValueTest()
@@ -66,7 +66,7 @@ class DataStoreViewModelTest {
     }
 
     @Test
-    fun `fetch items from api failed response`() {
+    fun `get items from api failed response`() {
         viewModel2.getDatastoreRecordsApi()
 
         val value = viewModel2.datastoreResponse.getOrAwaitValueTest()

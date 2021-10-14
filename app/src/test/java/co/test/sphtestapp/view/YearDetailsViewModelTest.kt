@@ -31,7 +31,7 @@ class YearDetailsViewModelTest {
     }
 
     @Test
-    fun `fetch items`() {
+    fun `get items`() {
         viewModel1.fetchDatastoreRecordsDb()
 
         val value = viewModel1.datastoreDbData.getOrAwaitValueTest()
