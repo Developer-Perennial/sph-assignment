@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="co.test.sphtestapp.view.DatastoreListViewModel" />
+            type="co.test.sphtestapp.viewmodel.DatastoreListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

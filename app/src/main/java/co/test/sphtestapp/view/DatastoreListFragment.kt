@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import co.test.sphtestapp.R
+import co.test.sphtestapp.common.Constants
 import co.test.sphtestapp.common.EventObserver
-import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.data.network.Status.*
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.databinding.FragmentDatastoreListBinding
+import co.test.sphtestapp.viewmodel.DatastoreListViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class DatastoreListFragment : Fragment(), ClickHandler  {
@@ -22,6 +24,7 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
     lateinit var datastoreListViewModel: DatastoreListViewModel
 
     private val _yearWiseVolumeData = arrayListOf<Record>()
+    private val tempYearWiseVolumeData = arrayListOf<Record>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +39,6 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
         setUpObservers()
         setUpList()
 
-        datastoreListViewModel.getDatastoreRecords()
-
         return binding.root
     }
 
@@ -47,12 +48,16 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
     }
 
     private fun setUpObservers() {
-        datastoreListViewModel.datastoreResponse.observe(
+        datastoreListViewModel.datastoreDbData.observe(
             viewLifecycleOwner,
-            EventObserver { recordAPIDataList ->
-                when (recordAPIDataList.status) {
+            EventObserver { recordDBDataList ->
+                when (recordDBDataList.status) {
                     SUCCESS -> {
-                        loadAdapter(recordAPIDataList.data?.result?.records)
+                        if (recordDBDataList.data!!.isEmpty()) {
+                            datastoreListViewModel.getDatastoreRecordsApi()
+                        } else {
+                            loadAdapter(recordDBDataList.data)
+                        }
                     }
                     ERROR -> {
                         Snackbar.make(binding.root, getString(R.string.issue_while_loading_data), Snackbar.LENGTH_LONG).show()
@@ -60,10 +65,26 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
                     LOADING -> {}
                 }
             })
+        datastoreListViewModel.datastoreResponse.observe(
+            viewLifecycleOwner,
+            EventObserver { recordAPIDataList ->
+                when (recordAPIDataList.status) {
+                    SUCCESS -> {
+                        loadAdapter(recordAPIDataList.data?.result?.records!!)
+                    }
+                    ERROR -> {
+                        Snackbar.make(binding.root, getString(R.string.issue_while_loading_data), Snackbar.LENGTH_LONG).show()
+                    }
+                    LOADING -> {}
+                }
+            })
+        datastoreListViewModel.fetchDatastoreRecordsDb()
     }
 
-    private fun loadAdapter(datastoreList: List<Record>?) {
+    private fun loadAdapter(datastoreList: List<Record>) {
         _yearWiseVolumeData.addAll(datastoreListViewModel.filterData(datastoreList))
+        tempYearWiseVolumeData.clear()
+        tempYearWiseVolumeData.addAll(datastoreList)
         binding.rvDatastoreList.adapter?.notifyDataSetChanged()
     }
 
@@ -73,5 +94,9 @@ class DatastoreListFragment : Fragment(), ClickHandler  {
     }
 
     override fun handleClick(view: View, position: Int) {
+        val bundle = Bundle()
+        bundle.putInt(Constants.IntentKeys.POSITION, position)
+        bundle.putStringArrayList(Constants.IntentKeys.YEAR_DATA, datastoreListViewModel.yearData)
+        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
     }
 }
