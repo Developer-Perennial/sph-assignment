@@ -1,4 +1,4 @@
-package co.test.sphtestapp.view
+package co.test.sphtestapp.viewmodel
 
 import androidx.databinding.ObservableField
 import androidx.hilt.lifecycle.ViewModelInject

@@ -17,5 +17,6 @@ class ConstantsTest {
         assertEquals("a807b7ab-6cad-4aa6-87d0-e283a7353a0f", Constants.Resource.ID)
         assertEquals("position", Constants.IntentKeys.POSITION)
         assertEquals("year_data", Constants.IntentKeys.YEAR_DATA)
+        assertEquals("year_selected", Constants.IntentKeys.YEAR_SELECTED)
     }
 }

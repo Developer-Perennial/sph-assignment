@@ -1,4 +1,4 @@
-package co.test.sphtestapp.view
+package co.test.sphtestapp.viewmodel
 
 import androidx.databinding.ObservableField
 import androidx.hilt.lifecycle.ViewModelInject
@@ -12,7 +12,6 @@ import co.test.sphtestapp.data.network.Resource
 import co.test.sphtestapp.data.network.response.DatastoreResponse
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.repository.DataStoreRepository
-import co.test.sphtestapp.repository.DatastoreRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

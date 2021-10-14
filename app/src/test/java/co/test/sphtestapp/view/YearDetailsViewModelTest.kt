@@ -5,6 +5,7 @@ import co.test.sphtestapp.MainCoroutineRule
 import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.getOrAwaitValueTest
 import co.test.sphtestapp.repositories.FakeDataStoreRepository
+import co.test.sphtestapp.viewmodel.YearDetailsViewModel
 import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before

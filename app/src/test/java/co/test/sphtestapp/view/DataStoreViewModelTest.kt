@@ -6,6 +6,7 @@ import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.getOrAwaitValueTest
 import co.test.sphtestapp.repositories.FakeDataStoreRepository
+import co.test.sphtestapp.viewmodel.DatastoreListViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before

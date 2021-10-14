@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import co.test.sphtestapp.R
 import co.test.sphtestapp.common.Constants
-import co.test.sphtestapp.common.EventObserver
-import co.test.sphtestapp.data.network.Status
 import co.test.sphtestapp.data.network.response.Record
 import co.test.sphtestapp.databinding.FragmentYearDetailsBinding
+import co.test.sphtestapp.viewmodel.YearDetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class YearDetailsFragment : Fragment() {
