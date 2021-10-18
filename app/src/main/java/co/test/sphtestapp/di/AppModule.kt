@@ -8,7 +8,7 @@ import co.test.sphtestapp.data.local.DatastoreDao
 import co.test.sphtestapp.data.local.DatastoreDatabase
 import co.test.sphtestapp.data.network.DataStoreClient
 import co.test.sphtestapp.repository.DataStoreRepository
-import co.test.sphtestapp.repository.DatastoreRepository
+import co.test.sphtestapp.repository.StoreRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +39,7 @@ object AppModule {
     fun provideDatastoreRepository(
         dataStoreClient: DataStoreClient,
         datastoreDao: DatastoreDao
-    ) = DatastoreRepository(dataStoreClient, datastoreDao) as DataStoreRepository
+    ) = StoreRepositoryImpl(dataStoreClient, datastoreDao) as DataStoreRepository
 
     @Singleton
     @Provides

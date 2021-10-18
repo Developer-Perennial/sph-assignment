@@ -7,7 +7,7 @@ import co.test.sphtestapp.data.network.response.DatastoreResponse
 import co.test.sphtestapp.data.network.response.Record
 import javax.inject.Inject
 
-class DatastoreRepository @Inject constructor(
+class StoreRepositoryImpl @Inject constructor(
     private val dataStoreClient: DataStoreClient,
     private val datastoreDao: DatastoreDao
 ):DataStoreRepository {
